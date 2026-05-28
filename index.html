@@ -1,0 +1,520 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刘逸凡 — 内容运营</title>
+<style>
+/* ===== Reset & Base ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background:#FAF7F2;color:#2D2D2D;line-height:1.7;
+  -webkit-font-smoothing:antialiased
+}
+a{color:inherit;text-decoration:none}
+.container{max-width:860px;margin:0 auto;padding:0 24px}
+
+/* ===== Nav ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(250,247,242,0.88);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  transition:all 0.3s
+}
+nav .nav-inner{
+  max-width:860px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:56px
+}
+nav .logo{font-weight:700;font-size:18px;color:#FF5A5F;letter-spacing:-0.5px}
+nav .nav-links{display:flex;gap:28px;list-style:none}
+nav .nav-links a{font-size:14px;color:#6B6B6B;transition:color 0.25s;position:relative}
+nav .nav-links a:hover,nav .nav-links a.active{color:#2D2D2D}
+nav .nav-links a::after{
+  content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;
+  background:#FF5A5F;border-radius:1px;transition:width 0.3s
+}
+nav .nav-links a.active::after,nav .nav-links a:hover::after{width:100%}
+.nav-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:#2D2D2D}
+
+/* ===== Hero ===== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden
+}
+.hero::before{
+  content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at 60% 30%,rgba(255,90,95,0.06),transparent 60%),
+             radial-gradient(ellipse at 30% 70%,rgba(255,90,95,0.04),transparent 60%);
+  animation:heroBg 20s ease-in-out infinite
+}
+@keyframes heroBg{0%,100%{transform:translate(0,0)}50%{transform:translate(2%,1%)}}
+.hero-content{position:relative;z-index:1}
+.hero .tag{
+  display:inline-block;font-size:13px;letter-spacing:3px;color:#FF5A5F;
+  border:1px solid rgba(255,90,95,0.3);padding:6px 18px;border-radius:100px;
+  margin-bottom:28px;animation:fadeInUp 0.8s ease
+}
+.hero h1{
+  font-size:clamp(48px,8vw,80px);font-weight:800;letter-spacing:-2px;
+  line-height:1.1;margin-bottom:16px;animation:fadeInUp 0.8s 0.1s ease both
+}
+.hero .subtitle{
+  font-size:clamp(16px,2.5vw,20px);color:#6B6B6B;font-weight:400;
+  max-width:500px;margin:0 auto 40px;animation:fadeInUp 0.8s 0.2s ease both
+}
+.hero .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeInUp 0.8s 0.3s ease both}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 28px;
+  border-radius:100px;font-size:15px;font-weight:600;cursor:pointer;
+  transition:all 0.3s;border:none
+}
+.btn-primary{background:#FF5A5F;color:#fff}
+.btn-primary:hover{background:#e04a4f;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,90,95,0.3)}
+.btn-outline{background:transparent;color:#2D2D2D;border:1.5px solid #ddd}
+.btn-outline:hover{border-color:#FF5A5F;color:#FF5A5F;transform:translateY(-2px)}
+.hero .scroll-hint{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  animation:bounce 2s infinite;opacity:0.5
+}
+.hero .scroll-hint svg{width:24px;height:24px}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ===== Section Common ===== */
+section{padding:100px 0}
+.section-label{
+  font-size:12px;letter-spacing:3px;color:#FF5A5F;text-transform:uppercase;
+  margin-bottom:16px;font-weight:600
+}
+.section-title{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:48px;line-height:1.2}
+
+/* ===== About ===== */
+.about-card{
+  background:#fff;border-radius:20px;padding:48px;box-shadow:0 2px 20px rgba(0,0,0,0.04);
+  transition:transform 0.3s,box-shadow 0.3s;position:relative;overflow:hidden
+}
+.about-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+.about-card::before{
+  content:"";position:absolute;top:0;left:0;width:4px;height:40px;
+  background:#FF5A5F;border-radius:0 4px 4px 0;margin:48px 0
+}
+.about-card p{font-size:17px;color:#4A4A4A;line-height:1.9;margin-bottom:16px}
+.about-card p:last-child{margin-bottom:0}
+.about-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
+.highlight-item{text-align:center;padding:20px 12px}
+.highlight-item .num{font-size:36px;font-weight:800;color:#FF5A5F;letter-spacing:-1px}
+.highlight-item .label{font-size:13px;color:#6B6B6B;margin-top:4px}
+
+/* ===== Experience Timeline ===== */
+.timeline{position:relative;padding-left:40px}
+.timeline::before{
+  content:"";position:absolute;left:15px;top:8px;bottom:8px;
+  width:2px;background:linear-gradient(to bottom,#FF5A5F,rgba(255,90,95,0.15))
+}
+.exp-card{
+  background:#fff;border-radius:16px;padding:0;margin-bottom:32px;
+  box-shadow:0 2px 16px rgba(0,0,0,0.04);overflow:hidden;
+  transition:transform 0.3s,box-shadow 0.3s;
+  position:relative;cursor:pointer
+}
+.exp-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+.exp-card::before{
+  content:"";position:absolute;left:-33px;top:28px;
+  width:12px;height:12px;background:#fff;border:3px solid #FF5A5F;
+  border-radius:50%;z-index:2;transition:background 0.3s
+}
+.exp-card.expanded::before{background:#FF5A5F}
+.exp-header{padding:32px 36px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
+.exp-header .left{}
+.exp-header .company{font-size:20px;font-weight:700;letter-spacing:-0.5px}
+.exp-header .role{font-size:15px;color:#6B6B6B;margin-top:4px}
+.exp-header .meta{text-align:right}
+.exp-header .date{font-size:14px;color:#FF5A5F;font-weight:600}
+.exp-header .expand-icon{
+  display:inline-block;transition:transform 0.3s;margin-left:8px;font-size:12px
+}
+.exp-card.expanded .expand-icon{transform:rotate(180deg)}
+.exp-body{
+  max-height:0;overflow:hidden;transition:max-height 0.5s ease,padding 0.5s ease
+}
+.exp-card.expanded .exp-body{max-height:2000px}
+.exp-body-inner{padding:0 36px 36px}
+.exp-body h4{font-size:15px;font-weight:700;color:#FF5A5F;margin:24px 0 12px;letter-spacing:1px}
+.exp-body h4:first-child{margin-top:0}
+.exp-body ul{list-style:none;padding:0}
+.exp-body li{
+  font-size:15px;color:#4A4A4A;line-height:1.8;padding:6px 0;
+  padding-left:16px;position:relative
+}
+.exp-body li::before{
+  content:"·";position:absolute;left:0;color:#FF5A5F;font-weight:bold
+}
+.exp-body .metric{
+  display:inline-block;background:rgba(255,90,95,0.08);color:#FF5A5F;
+  padding:2px 10px;border-radius:6px;font-weight:600;font-size:13px;margin:0 2px
+}
+
+/* ===== Campus ===== */
+.campus-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
+.campus-card{
+  background:#fff;border-radius:16px;padding:32px;box-shadow:0 2px 16px rgba(0,0,0,0.04);
+  transition:transform 0.3s,box-shadow 0.3s
+}
+.campus-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+.campus-card .icon{font-size:28px;margin-bottom:16px}
+.campus-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
+.campus-card .sub{font-size:13px;color:#6B6B6B;margin-bottom:4px}
+.campus-card p{font-size:14px;color:#4A4A4A;line-height:1.7;margin-top:12px}
+
+/* ===== Skills ===== */
+.skills-wrapper{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.skill-tag{
+  display:inline-block;padding:10px 22px;background:#fff;border-radius:100px;
+  font-size:14px;font-weight:500;color:#4A4A4A;cursor:default;
+  box-shadow:0 1px 6px rgba(0,0,0,0.04);transition:all 0.35s cubic-bezier(0.25,0.46,0.45,0.94)
+}
+.skill-tag:hover{
+  transform:scale(1.08);background:#FF5A5F;color:#fff;
+  box-shadow:0 6px 20px rgba(255,90,95,0.25)
+}
+.skill-tag.ai{border:1.5px dashed rgba(255,90,95,0.4)}
+.skill-divider{width:100%;height:1px}
+
+/* ===== Contact ===== */
+.contact-section{text-align:center;padding:120px 0 80px}
+.contact-section .section-title{margin-bottom:40px}
+.contact-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.contact-card{
+  background:#fff;border-radius:16px;padding:32px 40px;box-shadow:0 2px 16px rgba(0,0,0,0.04);
+  transition:all 0.3s;cursor:pointer;min-width:200px;text-align:center
+}
+.contact-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+.contact-card .c-icon{font-size:32px;margin-bottom:12px}
+.contact-card .c-label{font-size:13px;color:#6B6B6B;margin-bottom:4px}
+.contact-card .c-value{font-size:16px;font-weight:600;color:#2D2D2D}
+.copy-toast{
+  position:fixed;bottom:40px;left:50%;transform:translateX(-50%);
+  background:#2D2D2D;color:#fff;padding:12px 24px;border-radius:100px;
+  font-size:14px;opacity:0;pointer-events:none;transition:opacity 0.3s;z-index:9999
+}
+.copy-toast.show{opacity:1}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;padding:40px 24px;border-top:1px solid rgba(0,0,0,0.05);
+  font-size:13px;color:#B0B0B0
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .nav-links{display:none!important}
+  .nav-links.open{display:flex!important;flex-direction:column;position:absolute;top:56px;left:0;right:0;
+    background:rgba(250,247,242,0.98);backdrop-filter:blur(12px);padding:20px 24px;
+    border-bottom:1px solid rgba(0,0,0,0.05);gap:16px}
+  .nav-toggle{display:block}
+  .hero{padding:100px 24px 60px}
+  .about-card{padding:32px 24px}
+  .about-highlights{grid-template-columns:repeat(3,1fr);gap:12px}
+  .highlight-item .num{font-size:26px}
+  .timeline{padding-left:32px}
+  .exp-header{padding:24px}
+  .exp-body-inner{padding:0 24px 24px}
+  .campus-grid{grid-template-columns:1fr}
+  .contact-cards{flex-direction:column;align-items:center}
+}
+@media(max-width:480px){
+  .hero h1{font-size:40px}
+  .about-highlights{grid-template-columns:1fr;gap:8px}
+  .exp-header .meta{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">LYF</a>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-section="about">关于我</a></li>
+      <li><a href="#experience" data-section="experience">实习经历</a></li>
+      <li><a href="#campus" data-section="campus">校园经历</a></li>
+      <li><a href="#skills" data-section="skills">技能</a></li>
+      <li><a href="#contact" data-section="contact">联系</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="tag">CONTENT OPERATIONS</div>
+    <h1>刘逸凡</h1>
+    <p class="subtitle">懂内容 · 有审美 · 会玩数据的社区运营人<br>小红书实战4个月，让数字说话</p>
+    <div class="btns">
+      <a href="#experience" class="btn btn-primary">📋 查看我的经历</a>
+      <a href="#contact" class="btn btn-outline">📮 联系我</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+    </svg>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="section-label fade-in">ABOUT ME</div>
+    <h2 class="section-title fade-in">关于我</h2>
+    <div class="about-card fade-in">
+      <p>我是刘逸凡，2025届北京城市学院建筑学应届毕业生。</p>
+      <p>建筑学给了我<span class="metric" style="display:inline;padding:2px 8px">空间叙事与设计审美</span>的底层能力——我知道怎么让内容「好看」，也知道怎么让用户「停留」。在小红书实习的4个月里，我把这种审美转化为实实在在的数据：社群日活提升200%，引入1000+创作者，官号涨粉4万+。</p>
+      <p>我是AI-native一代：Codex、ChatGPT、Gemini、Claude 是我的日常效率工具。我相信会用AI的内容运营，和不会用的，是两种职业。</p>
+      <div class="about-highlights">
+        <div class="highlight-item"><div class="num">200%</div><div class="label">社群日活提升</div></div>
+        <div class="highlight-item"><div class="num">1000+</div><div class="label">创作者引入</div></div>
+        <div class="highlight-item"><div class="num">84.3w</div><div class="label">官号粉丝量</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label fade-in">EXPERIENCE</div>
+    <h2 class="section-title fade-in">实习经历</h2>
+    <div class="timeline">
+
+      <!-- 小红书 -->
+      <div class="exp-card expanded fade-in" data-exp="xiaohongshu">
+        <div class="exp-header" onclick="toggleExp(this.parentElement)">
+          <div class="left">
+            <div class="company">小红书 · 行吟信息科技有限公司</div>
+            <div class="role">单主机社区内容运营</div>
+          </div>
+          <div class="meta">
+            <span class="date">2024.08 — 2024.12</span>
+            <span class="expand-icon">▼</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <h4>🎯 创作者运营</h4>
+            <ul>
+              <li>通过福利刺激、外站达人引入等策略，<span class="metric">社群作者日均活跃数从50提升至150+，提升200%</span></li>
+              <li>整合流量、游戏CDKey、京东卡、Steam充值卡等资源为抓手，刺激社群作者活跃</li>
+              <li>核心引入纯黑、老戴在此等<span class="metric">1000+作者</span>入驻小红书，月均带供给增量<span class="metric">1w+</span></li>
+              <li>万粉跃迁<span class="metric">16人，同比增速37%</span>；高质内容月均生产提升<span class="metric">23%</span></li>
+            </ul>
+            <h4>🎮 游戏行业运营</h4>
+            <ul>
+              <li>对接维护Xbox、腾讯任天堂、TapTap、MetaApp等平台及NPC、回声游戏、方块游戏等单主机游戏厂商</li>
+              <li>定期监测多IP游戏在站内的产消规模变化，从数据视角与游戏厂商共建，提升IP品类内容经营健康度</li>
+              <li>负责小红书游戏官方账号「游戏薯」运营，<span class="metric">粉丝从80.2w上升至84.3w</span></li>
+            </ul>
+            <h4>📢 活动运营</h4>
+            <ul>
+              <li>结合游戏及平台节点，策划游戏线上及线下活动并执行落地：活动创意、UE设计跟进、H5页面搭建、资源位申请、活动结算</li>
+              <li>独立负责<span class="metric">S级长线运营活动1个</span>（已上线），多游戏IP常规活动<span class="metric">8个</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Campus -->
+<section id="campus">
+  <div class="container">
+    <div class="section-label fade-in">CAMPUS</div>
+    <h2 class="section-title fade-in">校园经历</h2>
+    <div class="campus-grid">
+
+      <div class="campus-card fade-in">
+        <div class="icon">🎤</div>
+        <h3>校园十佳歌手大赛</h3>
+        <div class="sub">学生会外联部部长 · 2022.11 — 2023.10</div>
+        <p>策划并执行大型校园活动，成功邀请牛奶咖啡、周传雄等明星嘉宾来校演出。活动上座率<span class="metric">99%</span>，线上传播曝光<span class="metric">500w+</span></p>
+      </div>
+
+      <div class="campus-card fade-in">
+        <div class="icon">📱</div>
+        <h3>「北城青年」公众号运营</h3>
+        <div class="sub">内容编辑与运营 · 2022.11 — 2023.10</div>
+        <p>任职1年内粉丝增长<span class="metric">6k+</span>，内容篇均阅读提升<span class="metric">31%</span></p>
+      </div>
+
+      <div class="campus-card fade-in">
+        <div class="icon">🎓</div>
+        <h3>北京城市学院 · 建筑学</h3>
+        <div class="sub">2021.09 — 2025.06 · GPA 3.9/4.0</div>
+        <p>校一等奖学金、校二等奖学金、优秀学生干部。建筑学训练了空间叙事、视觉审美与系统性思维</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label fade-in">SKILLS</div>
+    <h2 class="section-title fade-in">技能标签</h2>
+    <div class="skills-wrapper fade-in">
+      <span class="skill-tag">Microsoft Office 全家桶</span>
+      <span class="skill-tag">Photoshop</span>
+      <span class="skill-tag">秀米编辑器</span>
+      <span class="skill-tag">剪映</span>
+      <span class="skill-tag">H5页面搭建</span>
+      <span class="skill-tag">活动策划</span>
+      <span class="skill-tag">数据分析</span>
+      <span class="skill-tag">内容策略</span>
+      <span class="skill-tag">用户增长</span>
+    </div>
+    <div style="height:24px"></div>
+    <div class="skills-wrapper fade-in">
+      <span class="skill-tag ai">🤖 Codex</span>
+      <span class="skill-tag ai">🤖 ChatGPT</span>
+      <span class="skill-tag ai">🤖 Gemini</span>
+      <span class="skill-tag ai">🤖 Claude</span>
+    </div>
+    <p style="text-align:center;color:#B0B0B0;font-size:13px;margin-top:20px">⭐ AI-native — 善用大模型工具进行高效内容生产与数据分析</p>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="section-label fade-in">CONTACT</div>
+    <h2 class="section-title fade-in">联系我</h2>
+    <div class="contact-cards fade-in">
+      <div class="contact-card" onclick="copyToClipboard(`18515629580@163.com`,this)" title="点击复制邮箱">
+        <div class="c-icon">📧</div>
+        <div class="c-label">邮箱</div>
+        <div class="c-value">18515629580@163.com</div>
+        <div style="font-size:11px;color:#B0B0B0;margin-top:6px">点击复制</div>
+      </div>
+      <div class="contact-card" onclick="copyToClipboard(`18515629580`,this)" title="点击复制手机号">
+        <div class="c-icon">📱</div>
+        <div class="c-label">手机</div>
+        <div class="c-value">18515629580</div>
+        <div style="font-size:11px;color:#B0B0B0;margin-top:6px">点击复制</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 刘逸凡 · 期待与你共事</p>
+</footer>
+
+<!-- Toast -->
+<div class="copy-toast" id="toast">✅ 已复制到剪贴板</div>
+
+<script>
+// ===== Smooth scroll & Nav active =====
+const navLinks=document.querySelectorAll(".nav-links a");
+const sections=document.querySelectorAll("section[id]");
+const nav=document.getElementById("nav");
+
+navLinks.forEach(a=>{
+  a.addEventListener("click",e=>{
+    e.preventDefault();
+    const target=document.querySelector(a.getAttribute("href"));
+    if(target)target.scrollIntoView({behavior:"smooth"});
+    document.getElementById("navLinks").classList.remove("open");
+  });
+});
+
+function updateNav(){
+  let current="";
+  sections.forEach(s=>{
+    const top=s.offsetTop-100;
+    if(window.scrollY>=top)current=s.getAttribute("id");
+  });
+  navLinks.forEach(a=>{
+    a.classList.toggle("active",a.getAttribute("data-section")===current);
+  });
+}
+
+// ===== Mobile nav toggle =====
+document.getElementById("navToggle").addEventListener("click",()=>{
+  document.getElementById("navLinks").classList.toggle("open");
+});
+
+// ===== Expand/collapse experience =====
+function toggleExp(card){
+  card.classList.toggle("expanded");
+  // Store state
+  const id=card.getAttribute("data-exp");
+  if(id){
+    const expanded=card.classList.contains("expanded");
+    localStorage.setItem("exp-"+id,expanded);
+  }
+}
+
+// Restore expanded state
+document.querySelectorAll(".exp-card").forEach(card=>{
+  const id=card.getAttribute("data-exp");
+  if(id&&localStorage.getItem("exp-"+id)==="true"){
+    card.classList.add("expanded");
+  }
+});
+
+// ===== Scroll animations =====
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("visible");
+    }
+  });
+},{threshold:0.15});
+
+document.querySelectorAll(".fade-in").forEach(el=>observer.observe(el));
+
+// ===== Copy to clipboard =====
+const toast=document.getElementById("toast");
+let toastTimer;
+
+function copyToClipboard(text,el){
+  navigator.clipboard.writeText(text).then(()=>{
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>toast.classList.remove("show"),2000);
+    // Brief pulse on card
+    el.style.transform="scale(0.96)";
+    setTimeout(()=>el.style.transform="",150);
+  }).catch(()=>{
+    // Fallback
+    const ta=document.createElement("textarea");
+    ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+    document.body.appendChild(ta);ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>toast.classList.remove("show"),2000);
+  });
+}
+
+// ===== Scroll listener =====
+window.addEventListener("scroll",updateNav,{passive:true});
+updateNav();
+</script>
+
+</body>
+</html>
